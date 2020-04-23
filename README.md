@@ -1,30 +1,42 @@
-# hello-express
+Môi trường chạy: NodeJS
+Ngôn ngữ : Javascript
+Framework :Express JS
 
-A server that serves a webpage, its resources, and some data
+//Khởi tạo:
+1. npm init
+2. npm install express--save
+3. Tạo File index.js()
 
+//Template engine 
+SPA vs MPA
+Tempate engine là ngôn ngữ render HTML
+- Pug(jade) 
+- Mustache
+- ejs
 
-## Your Project
+1. npm install pug --save
+2. Tạo folder views
+3. Thêm vào index.js
+    - app.set('view engine','pug)
+    - app.set('views', ./views)
 
-On the front-end,
+Web: pughtml.com conver HTML <-> Pug
 
-- Edit `views/index.html` to change the content of the webpage
-- `public/client.js` is the javacript that runs when you load the webpage
-- `public/style.css` is the styles for `views/index.html`
-- Drag in `assets`, like images or music, to add them to your project
+res.render(path(file_template),key=value)
 
-On the back-end,
+//Query Parameters
+req.body.q => q
+user.name.indexOf(q) -> -1 là k tồn tại 
 
-- your app starts at `server.js`
-- add frameworks and packages in `package.json`
-- safely store app secrets in `.env` (nobody can see this but you and people you invite)
+//POST METHOD
+Post - gửi dữ liệu lên server ,xử lý và lưu lại dữ liệu
+1 path có thể có 2 method
+input luôn phải có name
+req.body để xem body request -> undifend nếu k cài body-parser
+1. npm install body-parser --save
+2. require body-parser
+3. Thêm 2 dòng 
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({ extended: true}));
 
-Click `Show` in the header to see your app live. Updates to your code will instantly deploy.
-
-
-## Made by [Glitch](https://glitch.com/)
-
-**Glitch** is the friendly community where you'll build the app of your dreams. Glitch lets you instantly create, remix, edit, and host an app, bot or site, and you can invite collaborators or helpers to simultaneously edit code with you.
-
-Find out more [about Glitch](https://glitch.com/about).
-
-( ᵔ ᴥ ᵔ )
+Khong co databse thi restart server se mat du lieu => dung lowdb
