@@ -1,0 +1,13 @@
+h1 To Do List
+
+form(action="/todos", method="GET")
+  input(name="q", type="text")
+  button Search
+
+form(action="/todos/create", method="POST")
+  input(name="name", type="text")
+  button Create
+
+ul
+  each todo in listToDos
+    li= todo.name
