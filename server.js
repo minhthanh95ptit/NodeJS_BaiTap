@@ -6,17 +6,24 @@
 const express = require("express");
 const app = express();
 
+app.set('view engine', 'pug');
+app.set('views', './views');
+
 // https://expressjs.com/en/starter/basic-routing.html
 app.get("/", (request, response) => {
   response.send("I love CodersX");
 });
 
 app.get("/todos", function(req, res) {
-  res.send(
-    "<ul><li>Đi Chợ</li><li>Nấu Cơm</li><li>Rửa Bát</li><li>Học code tại CodersX</li></ul>"
-  );
+  res.render('index',{
+    listToDos: [
+      {id: 1, name: 'Đi Chợ'},
+      {id: 2, name: 'Nấu Cơm'},
+      {id: 3, name: 'Rửa Bát'},
+      {id: 4, name: 'Học code tại CodersX'}  
+    ]
+  });
 });
-
 // listen for requests :)
 app.listen(process.env.PORT, () => {
   console.log("Server listening on port " + process.env.PORT);
