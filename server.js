@@ -4,10 +4,14 @@
 // we've started you off with Express (https://expressjs.com/)
 // but feel free to use whatever libraries or frameworks you'd like through `package.json`.
 const express = require("express");
+var bodyParser = require('body-parser');
 const app = express();
 
 app.set('view engine', 'pug');
 app.set('views', './views');
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true}));
 
 var listToDos =  [
       {id: 1, name: 'Đi Chợ'},
@@ -30,12 +34,22 @@ app.get("/todos", function(req, res) {
      var matchToDo = listToDos.filter(function(todo){
       return todo.name.toLowerCase().indexOf(q.toLowerCase()) !== -1;
     });
-      res.render('index',{
+      res.render('todos/index',{
         listToDos: matchToDo
       });
   }
     
-  res.render('index',{
+  res.render('todos/index',{
+    listToDos: listToDos
+  });
+});
+
+app.post("/todos/create",function(req, res){
+  listToDos.push(req.body);
+  // res.render('todos/index',{
+  //   listToDos: listToDos
+  // });
+  res.render('todos/index',{
     listToDos: listToDos
   });
 });
