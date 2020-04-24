@@ -6,19 +6,22 @@
 const express = require("express");
 var bodyParser = require('body-parser');
 const app = express();
+var low = require('lowdb');
+
+
+var FileSync = require('lowdb/adapters/FileSync');
+var adapter = new FileSync('db.json');
+
+var db = low(adapter);
+
+db.defaults({todos: []})
+    .write();
 
 app.set('view engine', 'pug');
 app.set('views', './views');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
-
-var listToDos =  [
-      {id: 1, name: 'Đi Chợ'},
-      {id: 2, name: 'Nấu Cơm'},
-      {id: 3, name: 'Rửa Bát'},
-      {id: 4, name: 'Học code tại CodersX'}  
-    ];
 
 
 // https://expressjs.com/en/starter/basic-routing.html
@@ -31,26 +34,27 @@ app.get("/todos", function(req, res) {
   var q = req.query.q;
   
   if(q){
-     var matchToDo = listToDos.filter(function(todo){
+     var matchToDo = db.get('todos').value().filter(function(todo){
       return todo.name.toLowerCase().indexOf(q.toLowerCase()) !== -1;
     });
       res.render('todos/index',{
-        listToDos: matchToDo
+        todos: matchToDo
       });
   }
     
   res.render('todos/index',{
-    listToDos: listToDos
+    todos: db.get('todos').value()
   });
 });
 
 app.post("/todos/create",function(req, res){
-  listToDos.push(req.body);
+  
+  db.get('todos').push(req.body).write();
   // res.render('todos/index',{
   //   listToDos: listToDos
   // });
   res.render('todos/index',{
-    listToDos: listToDos
+    todos: db.get('todos').value()
   });
 });
 
